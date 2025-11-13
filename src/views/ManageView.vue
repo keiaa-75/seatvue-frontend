@@ -1,15 +1,18 @@
 <script setup>
 import { ref, onMounted } from 'vue'
-import apiClient from '@/services/api'
+import { useRouter } from 'vue-router'
+import apiClient from '@/services/api' 
 
-const sections = ref(null)
-const selectedSectionId = ref(null)
+const sections = ref(null) 
+const selectedSectionId = ref(null) 
 const isLoading = ref(true)
 const errorMessage = ref(null)
 
+const router = useRouter()
+
 onMounted(async () => {
   try {
-    const response = await apiClient.get('/sections')
+    const response = await apiClient.get('/sections') 
     sections.value = response.data
   } catch (error) {
     console.error('Failed to fetch sections:', error)
@@ -21,7 +24,7 @@ onMounted(async () => {
 
 function handleSectionChange() {
   if (selectedSectionId.value) {
-    console.log(`Navigating to manage section: ${selectedSectionId.value}`)
+    router.push(`/manage/${selectedSectionId.value}`)
   }
 }
 </script>
