@@ -1,66 +1,96 @@
 <script setup>
-import { ref, onMounted } from 'vue'
-import { useRouter } from 'vue-router'
-import apiClient from '@/services/api' 
+import { RouterLink, useRoute } from 'vue-router'
 
-const sections = ref(null) 
-const selectedSectionId = ref(null) 
-const isLoading = ref(true)
-const errorMessage = ref(null)
-
-const router = useRouter()
-
-onMounted(async () => {
-  try {
-    const response = await apiClient.get('/sections') 
-    sections.value = response.data
-  } catch (error) {
-    console.error('Failed to fetch sections:', error)
-    errorMessage.value = 'Failed to load sections. Please try again later.'
-  } finally {
-    isLoading.value = false
-  }
-})
-
-function handleSectionChange() {
-  if (selectedSectionId.value) {
-    router.push(`/manage/${selectedSectionId.value}`)
-  }
-}
+const route = useRoute()
+const sectionId = route.params.sectionId
 </script>
 
 <template>
-  <div class="container">
-    <section class="section">
-      <h1 class="title">Manage Sections</h1>
-      <p class="subtitle">Select a section to begin managing students and assignments.</p>
+  <div>
+    <h2 class="title is-4">Manage Section (ID: {{ sectionId }})</h2>
+    <p class="subtitle is-6">What would you like to do?</p>
 
-      <div v-if="isLoading" class="notification is-light">
-        Loading sections...
+    <div class="columns is-multiline">
+
+      <div class="column is-one-third">
+        <div class="box has-text-centered">
+          <span class="icon is-large has-text-success">
+            <i class="fas fa-plus fa-2x"></i>
+          </span>
+          <h3 class="title is-5 mt-3">New Assignment</h3>
+          <p class="mb-4">Create a new seat assignment for a student.</p>
+          <RouterLink :to="`/manage/${sectionId}/assignments/new`" class="button is-success is-fullwidth">
+            Create
+          </RouterLink>
+        </div>
       </div>
-
-      <div v-if="errorMessage" class="notification is-danger">
-        {{ errorMessage }}
-      </div>
-
-      <div v-if="!isLoading && sections" class="field">
-        <label class="label" for="section-select">Select a Section</label>
-        <div class="control">
-          <div class="select is-fullwidth">
-            <select id="section-select" v-model="selectedSectionId" @change="handleSectionChange">
-              <option :value="null" disabled>-- Please choose a section --</option>
-              <option v-for="section in sections" :key="section.id" :value="section.id">
-                {{ section.sectionName }} ({{ section.gradeLevel }} - {{ section.strand }})
-              </option>
-            </select>
-          </div>
+      
+      <div class="column is-one-third">
+        <div class="box has-text-centered">
+          <span class="icon is-large has-text-info">
+            <i class="fas fa-chair fa-2x"></i>
+          </span>
+          <h3 class="title is-5 mt-3">Manage Assignments</h3>
+          <p class="mb-4">View, edit, or delete existing seat assignments.</p>
+          <RouterLink :to="`/manage/${sectionId}/assignments`" class="button is-info is-fullwidth">
+            Manage
+          </RouterLink>
         </div>
       </div>
 
-      <div class="mt-5">
-        <RouterView />
+      <div class="column is-one-third">
+        <div class="box has-text-centered">
+          <span class="icon is-large has-text-primary">
+            <i class="fas fa-users fa-2x"></i>
+          </span>
+          <h3 class="title is-5 mt-3">Manage Students</h3>
+          <p class="mb-4">Add, edit, or delete students in this section.</p>
+          <RouterLink :to="`/manage/${sectionId}/students`" class="button is-primary is-fullwidth">
+            Manage
+          </RouterLink>
+        </div>
       </div>
 
-    </section>
+      <div class="column is-one-third">
+        <div class="box has-text-centered">
+          <span class="icon is-large has-text-link">
+            <i class="fas fa-file-upload fa-2x"></i>
+          </span>
+          <h3 class="title is-5 mt-3">Import Students</h3>
+          <p class="mb-4">Upload a CSV file to add multiple students at once.</p>
+          <RouterLink :to="`/manage/${sectionId}/students/import`" class="button is-link is-fullwidth">
+            Import
+          </RouterLink>
+        </div>
+      </div>
+
+      <div class="column is-one-third">
+        <div class="box has-text-centered">
+          <span class="icon is-large has-text-warning">
+            <i class="fas fa-edit fa-2x"></i>
+          </span>
+          <h3 class="title is-5 mt-3">Manage Section</h3>
+          <p class="mb-4">Update the name, grade level, or strand.</p>
+          <RouterLink :to="`/manage/${sectionId}/edit`" class="button is-warning is-fullwidth">
+            Edit
+          </RouterLink>
+        </div>
+      </div>
+
+    </div>
   </div>
 </template>
+
+<style scoped>
+.icon i {
+  font-size: 2.5rem;
+}
+.box {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+.box .button {
+  margin-top: auto;
+}
+</style>
