@@ -163,8 +163,7 @@ async function handleDelete() {
           <div class="control">
             <button 
               type="submit" 
-              class="button is-primary" 
-              style="background-color: #00BCD4;"
+              class="button is-primary btn-primary flat-squared"
               :class="{ 'is-loading': isSaving }"
               :disabled="isSaving || isDeleting"
             >
@@ -196,6 +195,4 @@ async function handleDelete() {
 </template>
 
 <style scoped>
-.box {
-}
 </style>

@@ -73,10 +73,6 @@ onMounted(async () => {
 </template>
 
 <style scoped>
-.table-container {
-    overflow: hidden;
-}
-
 .buttons.is-justify-content-space-between {
   padding: 0;
   align-items: center;

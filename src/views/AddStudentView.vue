@@ -133,8 +133,7 @@ async function handleSubmit() {
           <div class="control">
             <button 
               type="submit" 
-              class="button is-primary" 
-              style="background-color: #00BCD4;"
+              class="button is-primary btn-primary flat-squared"
               :class="{ 'is-loading': isLoading }"
               :disabled="isLoading"
             >
@@ -157,6 +156,4 @@ async function handleSubmit() {
 </template>
 
 <style scoped>
-.box {
-}
 </style>

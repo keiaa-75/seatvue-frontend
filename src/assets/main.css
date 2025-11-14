@@ -11,6 +11,26 @@ main {
   padding-bottom: 60px;
 }
 
+/* Utility Classes */
+.btn-primary {
+  background-color: #42B883 !important;
+  color: white !important;
+}
+
+.card {
+  background-color: #42B883 !important;
+  color: white !important;
+}
+
+.flat-squared {
+  border-radius: 0 !important;
+}
+
+.box {
+  margin: 0;
+  padding: 0;
+}
+
 /* Bottom Navigation Bar */
 .bottom-nav {
   display: flex;
@@ -20,7 +40,7 @@ main {
   width: 100%;
   height: 60px;
   z-index: 1000;
-  background-color: #00BCD4;
+  background-color: #42B883;
 }
 
 .bottom-nav-item {
@@ -35,13 +55,13 @@ main {
 }
 
 .bottom-nav-item:hover {
-  background-color: #00ACC1;
+  background-color: #36A370;
   color: white;
 }
 
 .bottom-nav-item.router-link-active {
   color: white;
-  background-color: #0097A7;
+  background-color: #2D8B5F;
 }
 
 .bottom-nav-text {

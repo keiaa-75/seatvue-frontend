@@ -34,7 +34,7 @@ onMounted(async () => {
           <span>Back to Dashboard</span>
         </RouterLink>
         
-        <RouterLink :to="`/manage/${sectionId}/students/new`" class="button is-primary" style="background-color: #00BCD4;">
+        <RouterLink :to="`/manage/${sectionId}/students/new`" class="button is-primary btn-primary flat-squared">
           <span class="icon">
             <i class="fas fa-plus"></i>
           </span>
@@ -86,10 +86,6 @@ onMounted(async () => {
 </template>
 
 <style scoped>
-.table-container {
-    overflow: hidden;
-}
-
 .buttons.is-justify-content-space-between {
   padding: 0;
 }

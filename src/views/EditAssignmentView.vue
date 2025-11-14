@@ -175,6 +175,4 @@ async function handleDelete() {
 </template>
 
 <style scoped>
-.box {
-}
 </style>

@@ -81,6 +81,4 @@ async function handleSubmit() {
 </template>
 
 <style scoped>
-.box {
-}
 </style>
