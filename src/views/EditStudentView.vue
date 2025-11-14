@@ -1,13 +1,13 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useRoute, useRouter, RouterLink } from 'vue-router'
 import apiClient from '@/services/api'
 
 const route = useRoute()
 const router = useRouter()
-const sectionId = route.params.sectionId
+const { sectionId, studentId } = route.params
 
-const newStudent = ref({
+const student = ref({
   studentId: '',
   firstName: '',
   lastName: '',
@@ -15,27 +15,55 @@ const newStudent = ref({
   suffix: ''
 })
 
-const isLoading = ref(false)
+const isLoading = ref(true)
+const isSaving = ref(false)
+const isDeleting = ref(false)
 const errorMessage = ref(null)
 
-async function handleSubmit() {
-  isLoading.value = true
-  errorMessage.value = null
-
+onMounted(async () => {
   try {
-    await apiClient.post(`/sections/${sectionId}/students`, newStudent.value)
-    
-    router.push(`/manage/${sectionId}/students`)
-
+    const response = await apiClient.get(`/sections/${sectionId}/students/${studentId}`)
+    student.value = response.data
   } catch (error) {
-    console.error('Failed to create student:', error)
-    if (error.response && error.response.data) {
-        errorMessage.value = `Failed to create student: ${error.response.data.message || 'Please check the details.'}`
-    } else {
-        errorMessage.value = 'An unexpected error occurred.'
-    }
+    console.error('Failed to fetch student data:', error)
+    errorMessage.value = "Failed to load student data. They may no longer exist."
   } finally {
     isLoading.value = false
+  }
+})
+
+async function handleUpdate() {
+  isSaving.value = true
+  errorMessage.value = null
+  try {
+    await apiClient.put(`/sections/${sectionId}/students/${studentId}`, student.value)
+
+    router.push(`/manage/${sectionId}/students`)
+  } catch (error) {
+    console.error('Failed to update student:', error)
+    errorMessage.value = "Failed to update student. Please check the details."
+  } finally {
+    isSaving.value = false
+  }
+}
+
+async function handleDelete() {
+  if (!confirm("Are you sure you want to delete this student? This action cannot be undone.")) {
+    return
+  }
+
+  isDeleting.value = true
+  errorMessage.value = null
+  try {
+    await apiClient.delete(`/sections/${sectionId}/students/${studentId}`)
+    
+    // On success, go back to the student list
+    router.push(`/manage/${sectionId}/students`)
+  } catch (error) {
+    console.error('Failed to delete student:', error)
+    errorMessage.value = "Failed to delete student."
+  } finally {
+    isDeleting.value = false
   }
 }
 </script>
@@ -52,10 +80,14 @@ async function handleSubmit() {
         </RouterLink>
       </div>
 
-      <h1 class="title">Add New Student</h1>
-      <p class="subtitle is-6">Section ID: {{ sectionId }}</p>
+      <h1 class="title">Edit Student</h1>
+      <p class="subtitle is-6">ID: {{ studentId }}</p>
 
-      <form @submit.prevent="handleSubmit">
+      <div v-if="isLoading" class="notification is-light">
+        Loading student data...
+      </div>
+
+      <form v-if="!isLoading" @submit.prevent="handleUpdate">
         <div class="box">
           <div class="field">
             <label class="label" for="studentId">Student ID</label>
@@ -63,10 +95,11 @@ async function handleSubmit() {
               <input 
                 id="studentId" 
                 class="input" 
-                type="text" 
-                placeholder="e.g., 12345678"
-                v-model="newStudent.studentId"
-                required 
+                type="text"
+                v-model="student.studentId"
+                required
+                readonly
+                disabled
               />
             </div>
           </div>
@@ -78,8 +111,7 @@ async function handleSubmit() {
                 id="firstName"
                 class="input" 
                 type="text" 
-                placeholder="e.g., Juan"
-                v-model="newStudent.firstName"
+                v-model="student.firstName"
                 required 
               />
             </div>
@@ -92,8 +124,7 @@ async function handleSubmit() {
                 id="lastName"
                 class="input" 
                 type="text" 
-                placeholder="e.g., Dela Cruz"
-                v-model="newStudent.lastName"
+                v-model="student.lastName"
                 required 
               />
             </div>
@@ -106,7 +137,7 @@ async function handleSubmit() {
                 id="middleName"
                 class="input" 
                 type="text"
-                v-model="newStudent.middleName"
+                v-model="student.middleName"
               />
             </div>
           </div>
@@ -118,8 +149,7 @@ async function handleSubmit() {
                 id="suffix"
                 class="input" 
                 type="text" 
-                placeholder="e.g., Jr."
-                v-model="newStudent.suffix"
+                v-model="student.suffix"
               />
             </div>
           </div>
@@ -129,25 +159,34 @@ async function handleSubmit() {
           {{ errorMessage }}
         </div>
 
-        <div class="field is-grouped">
+        <div class="field is-grouped is-justify-content-space-between">
           <div class="control">
             <button 
               type="submit" 
               class="button is-primary" 
               style="background-color: #00BCD4;"
-              :class="{ 'is-loading': isLoading }"
-              :disabled="isLoading"
+              :class="{ 'is-loading': isSaving }"
+              :disabled="isSaving || isDeleting"
             >
               <span class="icon">
                 <i class="fas fa-save"></i>
               </span>
-              <span>Save Student</span>
+              <span>Update Student</span>
             </button>
           </div>
           <div class="control">
-            <RouterLink :to="`/manage/${sectionId}/students`" class="button is-light">
-              Cancel
-            </RouterLink>
+            <button 
+              type="button" 
+              class="button is-danger"
+              :class="{ 'is-loading': isDeleting }"
+              :disabled="isSaving || isDeleting"
+              @click="handleDelete"
+            >
+              <span class="icon">
+                <i class="fas fa-trash"></i>
+              </span>
+              <span>Delete</span>
+            </button>
           </div>
         </div>
       </form>

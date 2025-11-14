@@ -8,6 +8,8 @@ import SectionDashboard from '../views/SectionDashboard.vue'
 import NewAssignmentView from '../views/NewAssignmentView.vue'
 import ManageAssignmentsView from '../views/ManageAssignmentsView.vue'
 import ManageStudentsView from '../views/ManageStudentsView.vue'
+import AddStudentView from '../views/AddStudentView.vue'
+import EditStudentView from '../views/EditStudentView.vue'
 import ImportStudentsView from '../views/ImportStudentsView.vue'
 import EditSectionView from '../views/EditSectionView.vue'
 
@@ -26,7 +28,7 @@ const router = createRouter({
       component: ManageView,
       children: [
         {
-          path: '',
+          path: '', 
           name: 'manage-index',
           component: ManageIndexView
         },
@@ -49,6 +51,16 @@ const router = createRouter({
           path: ':sectionId/students',
           name: 'manage-students',
           component: ManageStudentsView
+        },
+        {
+          path: ':sectionId/students/new',
+          name: 'add-student',
+          component: AddStudentView
+        },
+        {
+          path: ':sectionId/students/:studentId/edit',
+          name: 'edit-student',
+          component: EditStudentView
         },
         {
           path: ':sectionId/students/import',
