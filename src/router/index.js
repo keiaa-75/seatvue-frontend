@@ -13,6 +13,9 @@ import EditStudentView from '../views/EditStudentView.vue'
 import ImportStudentsView from '../views/ImportStudentsView.vue'
 import EditSectionView from '../views/EditSectionView.vue'
 import EditAssignmentView from '../views/EditAssignmentView.vue'
+import ManageLayoutsView from '../views/ManageLayoutsView.vue'
+import AddLayoutView from '../views/AddLayoutView.vue'
+import EditLayoutView from '../views/EditLayoutView.vue'
 
 
 const router = createRouter({
@@ -79,6 +82,21 @@ const router = createRouter({
           component: EditSectionView
         }
       ]
+    },
+    {
+      path: '/layouts',
+      name: 'manage-layouts',
+      component: ManageLayoutsView
+    },
+    {
+      path: '/layouts/new',
+      name: 'add-layout',
+      component: AddLayoutView
+    },
+    {
+      path: '/layouts/:layoutId/edit',
+      name: 'edit-layout',
+      component: EditLayoutView
     },
     {
       path: '/about',
