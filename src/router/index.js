@@ -2,8 +2,9 @@ import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import ManageView from '../views/ManageView.vue'
 import AboutView from '../views/AboutView.vue'
-import SectionDashboard from '../views/SectionDashboard.vue'
 
+import ManageIndexView from '../views/ManageIndexView.vue'
+import SectionDashboard from '../views/SectionDashboard.vue'
 import NewAssignmentView from '../views/NewAssignmentView.vue'
 import ManageAssignmentsView from '../views/ManageAssignmentsView.vue'
 import ManageStudentsView from '../views/ManageStudentsView.vue'
@@ -25,11 +26,15 @@ const router = createRouter({
       component: ManageView,
       children: [
         {
-          path: ':sectionId',
+          path: '',
+          name: 'manage-index',
+          component: ManageIndexView
+        },
+        {
+          path: ':sectionId', 
           name: 'section-dashboard',
           component: SectionDashboard
         },
-
         {
           path: ':sectionId/assignments/new',
           name: 'new-assignment',
