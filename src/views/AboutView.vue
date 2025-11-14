@@ -1,11 +1,37 @@
 <template>
-  <div class="container">
-    <section class="section">
-      <h1 class="title">About SeatVue</h1>
+  <div class="container p-4">
+    <div class="box">
+      <h1 class="title is-4 has-text-centered">About Seatvue</h1>
       <div class="content">
-        <p>SeatVue is a classroom seat assignment management system designed to help teachers easily organize and manage their students' seating arrangements.</p>
-        <p>This project is a port of the original Seatflow application, migrating the frontend from Thymeleaf to a modern Vue.js Single Page Application.</p>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
       </div>
-    </section>
+    </div>
+
+    <div class="box">
+      <h2 class="title is-5">How can we do better?</h2>
+      <div class="content">
+        <p>Your feedback helps us improve Seatvue. We value your thoughts and suggestions.</p>
+        <a href="#" class="button is-fullwidth is-light">
+          <span>Take the survey</span>
+          <span class="icon is-right">
+            <i class="fas fa-external-link-alt"></i>
+          </span>
+        </a>
+      </div>
+    </div>
   </div>
 </template>
+
+<style scoped>
+.box {
+  margin-bottom: 1.5rem;
+}
+.button .icon.is-right {
+  margin-left: auto;
+}
+.button {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+</style>

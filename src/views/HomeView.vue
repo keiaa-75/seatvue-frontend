@@ -1,6 +1,10 @@
+<script setup>
+import { RouterLink } from 'vue-router'
+</script>
+
 <template>
   <div>
-    <section class="hero is-primary is-medium">
+    <section class="hero is-primary is-medium" style="background-color: #00BCD4;">
       <div class="hero-body has-text-centered">
         <div class="container">
           <h1 class="title is-1">SeatVue</h1>
@@ -8,5 +12,31 @@
         </div>
       </div>
     </section>
+
+    <div class="container p-4">
+      
+      <div class="notification is-info is-light">
+        <p>This project is still under development. You can follow the progress on GitHub.</p>
+      </div>
+
+      <RouterLink to="/manage" class="button is-fullwidth is-large is-primary" style="background-color: #00BCD4;">
+        <span>Start managing records</span>
+        <span class="icon is-right">
+          <i class="fas fa-arrow-right"></i>
+        </span>
+      </RouterLink>
+
+    </div>
   </div>
 </template>
+
+<style scoped>
+.button .icon.is-right {
+  margin-left: auto;
+}
+.button {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+</style>
