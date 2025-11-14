@@ -12,6 +12,7 @@ import AddStudentView from '../views/AddStudentView.vue'
 import EditStudentView from '../views/EditStudentView.vue'
 import ImportStudentsView from '../views/ImportStudentsView.vue'
 import EditSectionView from '../views/EditSectionView.vue'
+import EditAssignmentView from '../views/EditAssignmentView.vue'
 
 
 const router = createRouter({
@@ -41,6 +42,11 @@ const router = createRouter({
           path: ':sectionId/assignments/new',
           name: 'new-assignment',
           component: NewAssignmentView
+        },
+        {
+          path: ':sectionId/assignments/:assignmentId/edit',
+          name: 'edit-assignment',
+          component: EditAssignmentView
         },
         {
           path: ':sectionId/assignments',
